@@ -21,7 +21,7 @@ loop = 1
 openseaLimit = 20  #300 is the max
 twitterLimit = 20
 
-for i in range(loop):
+for z in range(loop):
     offset = openseaLimit*i
     openseaURL = "https://api.opensea.io/api/v1/collections?offset=" + str(offset) + "&limit=" + str(openseaLimit)
     openseaAPI = requests.request("GET", openseaURL)
