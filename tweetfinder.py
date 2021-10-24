@@ -17,9 +17,14 @@ tweetDataArray = []
 
 twitterQueryCounter = 0
 
-for i in range(20):
-    offset = 300*i
-    openseaURL = "https://api.opensea.io/api/v1/collections?offset=" + str(offset) + "&limit=300"
+
+loop = 1
+openseaLimit = 300  #300 is the max
+twitterLimit = 1000
+
+for i in range(loop):
+    offset = openseaLimit*i
+    openseaURL = "https://api.opensea.io/api/v1/collections?offset=" + str(offset) + "&limit=" + str(openseaLimit)
     openseaAPI = requests.request("GET", openseaURL)
 
     text = openseaAPI.text
@@ -27,8 +32,6 @@ for i in range(20):
     collectionNames = []
     collectionURLs = []
     collectionDescriptions = []
-    
-    dontAppend = False
 
     for i in range(len(text) - 14):
         if text[i:i+7] == "\"name\":":
@@ -39,9 +42,9 @@ for i in range(20):
                 j += 1
             if len(name) < 19 or name[:19] != 'Untitled Collection':
                 collectionNames.append(name)
-                dontAppend = False
             else:
-                dontAppend = True
+                urls.pop()
+                descriptions.pop()
 
         if text[i:i+11] == "\"image_url\"":
             url = ""
@@ -49,8 +52,7 @@ for i in range(20):
             while text[i + j] != "\"":
                 url += text[i + j]
                 j += 1
-            if not dontAppend:
-                collectionURLs.append(url)
+            collectionURLs.append(url)
 
         if text[i:i+13] == "\"description\"":
             description = ""
@@ -59,14 +61,13 @@ for i in range(20):
                 while text[i + j] != "\"":
                     description += text[i + j]
                     j += 1
-            if not dontAppend:
-                collectionDescriptions.append(description)
+            collectionDescriptions.append(description)
             
     names += collectionNames
     urls += collectionURLs
     descriptions += collectionDescriptions
 
-    for i in range(len(names)):
+    for i in range(min(len(names), len(urls), len(descriptions))):
         if twitterQueryCounter == 450:
             break
 
@@ -80,7 +81,7 @@ for i in range(20):
 
         count = 0
 
-        for tweet in tweepy.Paginator(client.search_recent_tweets, query, tweet_fields=['created_at', 'public_metrics'], max_results=100).flatten(limit=1000):
+        for tweet in tweepy.Paginator(client.search_recent_tweets, query, tweet_fields=['created_at', 'public_metrics'], max_results=100).flatten(limit=twitterLimit):
             twtData = dict()
             twtData["collection_name"] = names[i]
             twtData["time"] = tweet.created_at
