@@ -14,8 +14,8 @@ mysql.init_app(app)
 def open():
     connection = mysql.connect()
     return connection
-
-@app.route('/api/analytic')
+ 
+@app.route('/api/analytic', methods=['GET'])
 def getAnalytics():
     conn = open()
     cursor = conn.cursor(DictCursor) 
@@ -23,6 +23,7 @@ def getAnalytics():
     cursor.execute(sql)
     result = jsonify(cursor.fetchall())
     cursor.close()
+    conn.close()
     return result
     # jsonify([{"count" : 125125}, {"count" : 5}, {"count" : 3}, {"count" : 1}, {"count" : 2412}])
 
@@ -34,6 +35,7 @@ def getData():
     cursor.execute(sql)
     result = jsonify(cursor.fetchall())
     cursor.close()
+    conn.close()
     return result
 
 @app.route('/api/nft_collections', methods = ["GET"])
@@ -44,9 +46,8 @@ def getCollections():
     cursor.execute(sql)
     result = jsonify(cursor.fetchall())
     cursor.close()
+    conn.close()
     return result
-
-
 
 @app.route('/api/nft_collections', methods=['POST'])
 def postCollections():
@@ -61,8 +62,10 @@ def postCollections():
     # POST to nft_collections
     insertTweet = "INSERT INTO nft_collections(collection_name, image_url, description) VALUES (%s, %s, %s)"
     cursor.execute(insertTweet, [data["collection_name"], data["image_url"], data["description"]])
+    cursor.close()
     conn.commit()
-    return 201
+    conn.close()
+    return data, 201
 
 @app.route('/api/data', methods=['POST'])
 def postData():
@@ -81,22 +84,25 @@ def postData():
 
     # POST tweet to data
     insertTweet = "INSERT INTO data VALUES (%i, %s, %s, %s, %s, %s, %s)"
-    cursor.execute(insertTweet, [id, data["time"], data["retweet_count"], data["reply_count"], data["like_count"], data["quote_count"]])
+    cursor.execute(insertTweet, [id, data["time"], data["text"], data["retweet_count"], data["reply_count"], data["like_count"], data["quote_count"]])
+    cursor.close()
     conn.commit()
-    return 201
+    conn.close()
+    return data, 201
 
 @app.route('/api/analytic', methods=['POST'])
 def postAnalytics():
     conn = open()
     # Check if valid request
-    if not request.is_json():
+    if not request.is_json:
         abort(400)
     
     data = request.get_json(force=True);
-    cursor = conn.cursor(DictCursor)
-    
+    cursor = conn.cursor()
     # POST to analytics
-    insertAnalysis = "INSERT INTO analytics VALUES (%i, %s)"
+    insertAnalysis = "INSERT INTO analytics VALUES (%s, %s)"
     cursor.execute(insertAnalysis, [data["id"], data["count"]])
+    cursor.close()
     conn.commit()
-    return 201
+    conn.close()
+    return data, 201

@@ -20,8 +20,9 @@ const columns = [
   function createRankings(data, collections) {
     let rows = [];
     let c = 0;
+    // collections[c]["collection_name"]
     data.forEach(nft_collection => {
-      rows.push({"rank" : c + 1, "name" : collections[c]["collection_name"], "tweets" : nft_collection["count"]});
+      rows.push({"rank" : c + 1, "name" : "feef", "tweets" : nft_collection["count"]});
       c += 1;
     });
     return rows
@@ -42,12 +43,11 @@ export default function Rankings () {
       .then(res => res.json())
       .then(data => {setRows(createRankings(data, collections));});
   });
-  
+  // collections = data
   return(
     <Container style={{marginTop: '10%'}}>
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <Typography sx={{fontSize: '3rem', marginLeft: '5%'}} color="white" align="left">Trending NFTs</Typography>
-          {rows.length}
           <TableContainer sx={{ maxHeight: 7/10, width: '90%', margin: '5%' }}>
             <Table stickyHeader aria-label="sticky table" sx={{
               [`& .${tableCellClasses.root}`]: {

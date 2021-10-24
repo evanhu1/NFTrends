@@ -22,7 +22,7 @@ openseaLimit = 20  #300 is the max
 twitterLimit = 20
 
 for z in range(loop):
-    offset = openseaLimit*i
+    offset = openseaLimit*z
     openseaURL = "https://api.opensea.io/api/v1/collections?offset=" + str(offset) + "&limit=" + str(openseaLimit)
     openseaAPI = requests.request("GET", openseaURL)
 
@@ -40,7 +40,7 @@ for z in range(loop):
                 name += text[i + j]
                 j += 1
             if len(name) < 19 or name[:19] != 'Untitled Collection':
-                collectionNames.add(name)
+                collectionNames.append(name)
             else:
                 collectionURLs.pop()
                 collectionDescriptions.pop()
