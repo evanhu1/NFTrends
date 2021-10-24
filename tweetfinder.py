@@ -92,11 +92,11 @@ for i in range(20):
     urls = []
     descriptions = []
 
-countsURL = ""
-collectionsURL = ""
-dataURL = ""
+countsURL = "127.0.0.1:"
+collectionsURL = "127.0.0.1"
+dataURL = "127.0.0.1"
 
-requests.post(countsURL + "/api/analytics", json=json.dumps(counts))
+requests.post(countsURL + "/api/analytic", json=json.dumps(counts))
 
 for collection in collectionDataArray:
     requests.post(collectionsURL + "/api/nft_collections", json=json.dumps(collection))
