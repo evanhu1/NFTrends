@@ -17,7 +17,6 @@ tweetDataArray = []
 
 twitterQueryCounter = 0
 
-
 loop = 1
 openseaLimit = 5  #300 is the max
 twitterLimit = 10
@@ -72,7 +71,6 @@ for i in range(loop):
         colData["collection_name"] = names[i]
         colData["img_url"] = urls[i]
         colData["description"] = descriptions[i]
-        collectionDataArray.append(colData)
 
         query = "NFT " + "\"" + names[i] + "\""
 
@@ -89,6 +87,7 @@ for i in range(loop):
             twitterQueryCounter += 1
         if count != 0:
             counts[names[i]] = count
+            collectionDataArray.append(colData)
     
     if twitterQueryCounter == 450:
         break
