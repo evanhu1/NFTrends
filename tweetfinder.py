@@ -24,9 +24,11 @@ for i in range(20):
 
     text = openseaAPI.text
 
-    collectionNames = set()
-    collectionURLs = set()
-    collectionDescriptions = set()
+    collectionNames = []
+    collectionURLs = []
+    collectionDescriptions = []
+    
+    dontAppend = False
 
     for i in range(len(text) - 14):
         if text[i:i+7] == "\"name\":":
@@ -36,7 +38,10 @@ for i in range(20):
                 name += text[i + j]
                 j += 1
             if len(name) < 19 or name[:19] != 'Untitled Collection':
-                collectionNames.add(name)
+                collectionNames.append(name)
+                dontAppend = False
+            else:
+                dontAppend = True
 
         if text[i:i+11] == "\"image_url\"":
             url = ""
@@ -44,7 +49,8 @@ for i in range(20):
             while text[i + j] != "\"":
                 url += text[i + j]
                 j += 1
-            collectionURLs.add(url)
+            if not dontAppend:
+                collectionURLs.append(url)
 
         if text[i:i+13] == "\"description\"":
             description = ""
@@ -53,7 +59,8 @@ for i in range(20):
                 while text[i + j] != "\"":
                     description += text[i + j]
                     j += 1
-            collectionDescriptions.add(description)
+            if not dontAppend:
+                collectionDescriptions.append(description)
             
     names += collectionNames
     urls += collectionURLs
