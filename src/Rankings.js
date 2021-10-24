@@ -21,8 +21,9 @@ const columns = [
   function createRankings(data, collections) {
     let rows = [];
     let c = 0;
+    // collections[c]["collection_name"]
     data.forEach(nft_collection => {
-      rows.push({"rank" : c + 1, "name" : collections[c]["collection_name"], "tweets" : data["count"], "imgUrl": collections[c]["image_url"], "desc": collections[c]["description"]});
+      rows.push({"rank" : c + 1, "name" : "feef", "tweets" : nft_collection["count"], "imgUrl": collections[c]["image_url"], "desc": collections[c]["description"]});
       c += 1;
     });
     return rows
@@ -34,11 +35,12 @@ const columns = [
       setSelectedID(id)
     }
   const [rows, setRows] = React.useState([]);
-  var collections;
-  fetch('/api/nft_collections')
+  
+  useEffect(() => {
+    var collections;
+    fetch('/api/nft_collections')
       .then(res => res.json())
       .then(data => {collections = data;});
-  useEffect(() => {
     fetch('/api/data')
       .then(res => res.json())
       .then(data => {});
@@ -46,7 +48,7 @@ const columns = [
       .then(res => res.json())
       .then(data => {setRows(createRankings(data, collections));});
   });
-  
+  // collections = data
   return(
     <Container style={{marginTop: '10%'}}>
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>

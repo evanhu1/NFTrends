@@ -17,21 +17,20 @@ tweetDataArray = []
 
 twitterQueryCounter = 0
 
-
 loop = 1
-openseaLimit = 1  #300 is the max
-twitterLimit = 5
+openseaLimit = 20  #300 is the max
+twitterLimit = 20
 
-for i in range(loop):
-    offset = openseaLimit*i
+for z in range(loop):
+    offset = openseaLimit*z
     openseaURL = "https://api.opensea.io/api/v1/collections?offset=" + str(offset) + "&limit=" + str(openseaLimit)
     openseaAPI = requests.request("GET", openseaURL)
 
     text = openseaAPI.text
 
-    collectionNames = set()
-    collectionURLs = set()
-    collectionDescriptions = set()
+    collectionNames = []
+    collectionURLs = []
+    collectionDescriptions = []
 
     for i in range(len(text) - 14):
         if text[i:i+7] == "\"name\":":
@@ -41,7 +40,10 @@ for i in range(loop):
                 name += text[i + j]
                 j += 1
             if len(name) < 19 or name[:19] != 'Untitled Collection':
-                collectionNames.add(name)
+                collectionNames.append(name)
+            else:
+                collectionURLs.pop()
+                collectionDescriptions.pop()
 
         if text[i:i+12] == "\"image_url\":":
             url = ""
@@ -49,7 +51,7 @@ for i in range(loop):
             while text[i + j] != "\"":
                 url += text[i + j]
                 j += 1
-            collectionURLs.add(url)
+            collectionURLs.append(url)
 
         if text[i:i+14] == "\"description\":":
             description = ""
@@ -58,7 +60,7 @@ for i in range(loop):
                 while text[i + j] != "\"":
                     description += text[i + j]
                     j += 1
-            collectionDescriptions.add(description)
+            collectionDescriptions.append(description)
             
     names += collectionNames
     urls += collectionURLs
@@ -72,7 +74,6 @@ for i in range(loop):
         colData["collection_name"] = names[i]
         colData["img_url"] = urls[i]
         colData["description"] = descriptions[i]
-        collectionDataArray.append(colData)
 
         query = "NFT " + "\"" + names[i] + "\""
 
@@ -89,19 +90,20 @@ for i in range(loop):
             twitterQueryCounter += 1
         if count != 0:
             counts[names[i]] = count
+            collectionDataArray.append(colData)
     
     if twitterQueryCounter == 450:
         break
 
-names = []
-urls = []
-descriptions = []
+    names = []
+    urls = []
+    descriptions = []
 
 countsURL = "http://127.0.0.1:5000"
 collectionsURL = "http://127.0.0.1:5000"
 dataURL = "http://127.0.0.1:5000"
 
-requests.post(countsURL + "/api/analytics", json=json.dumps(counts))
+requests.post(countsURL + "/api/analytic", json=json.dumps(counts))
 
 for collection in collectionDataArray:
     requests.post(collectionsURL + "/api/nft_collections", json=json.dumps(collection))
