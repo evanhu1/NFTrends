@@ -13,22 +13,18 @@ export default function Info({selectedID}) {
     const id = selectedID['name'];
     const rank = selectedID['rank'];
     const count = selectedID['tweets'];
-    // state = {
-    //     items: Array.from({ length: 20 })
-    //   };
-    
-    //   fetchMoreData = () => {
-    //     // a fake async api call like which sends
-    //     // 20 more records in 1.5 secs
-    //     setTimeout(() => {
-    //       this.setState({
-    //         items: this.state.items.concat(Array.from({ length: 20 }))
-    //       });
-    //     }, 1500);
-    //   };
+    const imgUrl = selectedID['imgUrl'];
+    const desc = selectedID['desc'];
+        if (selectedID == 'no-id') {
+            return(
+                <Typography sx={{fontSize: '2rem', marginTop: '20%'}} color ='white'>Select an NFT to see more info!</Typography>
+            );
+        }
+        else {
 
+        
         return(
-            <Container style={{ marginTop: '10%'}}>
+            <Container onClick={()=>console.log(selectedID)} style={{ marginTop: '10%'}}>
             <Paper sx={{width: '100%', maxHeight: 7/10, justifyContent: 'center'}}>
               <Stack
                 direction="column"
@@ -47,33 +43,33 @@ export default function Info({selectedID}) {
                                         #{rank} Trending NFT
                                     </Typography>
                                     <Typography sx={{fontSize: '1rem'}} color = "white">
-                                        {count} Tweets about NFT Name today
+                                        {count} Tweets about {} today
                                     </Typography>
                                 </Container>
                                 </Grid>
                                 <Grid item xs = {6}>
                                     <Container style={{alignItems:'center', justifyContent:'center'}}>
-                                    <img src="" alt="image placeholder"/>
+                                    <img src={imgUrl}/>
                                     </Container>
                                 </Grid>
                             </Grid>  
                         
                     </Item>
                         <Container>
-                            <Typography sx={{fontSize: '1em'}} align='left' color="white" paragraph>
-                                aoiwefaofjaopifjaipw  jaoiejfapoiwefja  opiwefjapoiefjapow ijfawpeoijfaopwiefjaopiwefjawpoeifjaeopwifjaweopifjaewopif jaewopifjaw epoifjaewf poiajwefopiajewf
+                            <Typography sx={{fontSize: '1rem'}} align='left' color="white" paragraph>
+                                {desc}
                             </Typography>
                         </Container>
                     <Item>
 
                     </Item>
 
-                    <Item>
+                    {/* <Item>
                         <Container>
                             <Typography sx={{fontSize:'2rem'}} align='left' color='white' >
                                 Tweets About {id}
                             </Typography>
-                            {/* <InfiniteScroll
+                            <InfiniteScroll
                             dataLength={this.state.items.length}
                             next={this.fetchMoreData}
                             hasMore={true}
@@ -86,15 +82,16 @@ export default function Info({selectedID}) {
                                     </Typography>
                                 </Container>
                             ))}
-                            </InfiniteScroll> */}
+                            </InfiniteScroll>
                         </Container>
                         <Container>
 
                         </Container>
 
-                    </Item>
+                    </Item> */}
               </Stack>
           </Paper>
           </Container> 
         );
       }
+    }

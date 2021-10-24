@@ -55,6 +55,7 @@ function App () {
                             </Item>
                         </Grid>
                         <Grid item xs = {6}>
+                            
                             <Item xs ={10}>
                                 <Info selectedID={selectedID} />
                             </Item>

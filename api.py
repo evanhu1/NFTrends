@@ -1,5 +1,6 @@
 from flask import Flask, request, abort, jsonify
 from flaskext.mysql import MySQL
+from pymysql.cursors import DictCursor
 
 app = Flask(__name__)
 mysql = MySQL()
@@ -14,14 +15,20 @@ def open():
     return connection
 
 conn = open()
-cursor = conn.cursor()
-sql = "SELECT * FROM analytics"
-cursor.execute(sql)
-print(cursor.fetchall())
+
+@app.route('/api/analytic')
+def getAnalytics():
+    cursor = conn.cursor(DictCursor) 
+    sql = "SELECT * FROM analytics ORDER BY count DESC"
+    cursor.execute(sql)
+    result = jsonify(cursor.fetchall())
+    cursor.close()
+    return result
+    # jsonify([{"count" : 125125}, {"count" : 5}, {"count" : 3}, {"count" : 1}, {"count" : 2412}])
 
 @app.route('/api/data', methods = ["GET"])
 def getData():
-    cursor = conn.cursor()
+    cursor = conn.cursor(DictCursor)
     sql = "SELECT * FROM data"
     cursor.execute(sql)
     result = jsonify(cursor.fetchall())
@@ -30,21 +37,14 @@ def getData():
 
 @app.route('/api/nft_collections', methods = ["GET"])
 def getCollections():
-    cursor = conn.cursor()
+    cursor = conn.cursor(DictCursor)
     sql = "SELECT * FROM nft_collections"
     cursor.execute(sql)
     result = jsonify(cursor.fetchall())
     cursor.close()
     return result
 
-@app.route('/api/analytics', methods = ["GET"])
-def getAnalytics():
-    cursor = conn.cursor()
-    sql = "SELECT * FROM analytics"
-    cursor.execute(sql)
-    result = jsonify(cursor.fetchall())
-    cursor.close()
-    return result
+
 
 @app.route('/api/nft_collections', methods=['POST'])
 def postCollections():
