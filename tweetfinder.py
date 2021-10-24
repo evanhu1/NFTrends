@@ -71,7 +71,6 @@ for i in range(loop):
         colData["collection_name"] = names[i]
         colData["img_url"] = urls[i]
         colData["description"] = descriptions[i]
-        collectionDataArray.append(colData)
 
         query = "NFT " + "\"" + names[i] + "\""
 
@@ -86,7 +85,9 @@ for i in range(loop):
             tweetDataArray.append(twtData)
             count += 1
             twitterQueryCounter += 1
-        counts[names[i]] = count
+        if count != 0:
+            counts[names[i]] = count
+            collectionDataArray.append(colData)
     
     if twitterQueryCounter == 450:
         break
