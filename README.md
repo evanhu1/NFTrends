@@ -1,2 +1,2 @@
 # NFTrends
-Cal Hacks 7.0
+Cal Hacks 8.0
