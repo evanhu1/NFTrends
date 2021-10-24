@@ -19,8 +19,8 @@ twitterQueryCounter = 0
 
 
 loop = 1
-openseaLimit = 300  #300 is the max
-twitterLimit = 1000
+openseaLimit = 1  #300 is the max
+twitterLimit = 5
 
 for i in range(loop):
     offset = openseaLimit*i
@@ -100,9 +100,9 @@ for i in range(loop):
     urls = []
     descriptions = []
 
-countsURL = "127.0.0.1:"
-collectionsURL = "127.0.0.1"
-dataURL = "127.0.0.1"
+countsURL = "127.0.0.1:5000"
+collectionsURL = "127.0.0.1:5000"
+dataURL = "127.0.0.1:5000"
 
 requests.post(countsURL + "/api/analytic", json=json.dumps(counts))
 
