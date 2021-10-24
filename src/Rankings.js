@@ -21,7 +21,7 @@ const columns = [
     let rows = [];
     let c = 0;
     data.forEach(nft_collection => {
-      rows.push({"rank" : c + 1, "name" : collections[c]["collection_name"], "tweets" : data["count"]});
+      rows.push({"rank" : c + 1, "name" : collections[c]["collection_name"], "tweets" : nft_collection["count"]});
       c += 1;
     });
     return rows
@@ -29,7 +29,6 @@ const columns = [
 
 export default function Rankings () {
   const [rows, setRows] = React.useState([]);
-  
   
   useEffect(() => {
     var collections;

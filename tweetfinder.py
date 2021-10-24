@@ -18,8 +18,8 @@ tweetDataArray = []
 twitterQueryCounter = 0
 
 loop = 1
-openseaLimit = 5  #300 is the max
-twitterLimit = 10
+openseaLimit = 20  #300 is the max
+twitterLimit = 20
 
 for i in range(loop):
     offset = openseaLimit*i
@@ -100,7 +100,7 @@ countsURL = "http://127.0.0.1:5000"
 collectionsURL = "http://127.0.0.1:5000"
 dataURL = "http://127.0.0.1:5000"
 
-requests.post(countsURL + "/api/analytics", json=json.dumps(counts))
+requests.post(countsURL + "/api/analytic", json=json.dumps(counts))
 
 for collection in collectionDataArray:
     requests.post(collectionsURL + "/api/nft_collections", json=json.dumps(collection))
