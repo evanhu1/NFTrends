@@ -92,9 +92,9 @@ for i in range(loop):
     if twitterQueryCounter == 450:
         break
 
-names = []
-urls = []
-descriptions = []
+    names = []
+    urls = []
+    descriptions = []
 
 countsURL = "http://127.0.0.1:5000"
 collectionsURL = "http://127.0.0.1:5000"
