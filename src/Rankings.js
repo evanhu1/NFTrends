@@ -29,11 +29,13 @@ const columns = [
 
 export default function Rankings () {
   const [rows, setRows] = React.useState([]);
-  var collections;
-  fetch('/api/nft_collections')
+  
+  
+  useEffect(() => {
+    var collections;
+    fetch('/api/nft_collections')
       .then(res => res.json())
       .then(data => {collections = data;});
-  useEffect(() => {
     fetch('/api/data')
       .then(res => res.json())
       .then(data => {});
@@ -46,6 +48,7 @@ export default function Rankings () {
     <Container style={{marginTop: '10%'}}>
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <Typography sx={{fontSize: '3rem', marginLeft: '5%'}} color="white" align="left">Trending NFTs</Typography>
+          {rows.length}
           <TableContainer sx={{ maxHeight: 7/10, width: '90%', margin: '5%' }}>
             <Table stickyHeader aria-label="sticky table" sx={{
               [`& .${tableCellClasses.root}`]: {

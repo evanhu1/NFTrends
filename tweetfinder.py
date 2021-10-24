@@ -19,8 +19,8 @@ twitterQueryCounter = 0
 
 
 loop = 1
-openseaLimit = 1  #300 is the max
-twitterLimit = 5
+openseaLimit = 5  #300 is the max
+twitterLimit = 10
 
 for i in range(loop):
     offset = openseaLimit*i
