@@ -19,12 +19,13 @@ conn = open()
 @app.route('/api/analytic')
 def getAnalytics():
     cursor = conn.cursor(DictCursor) 
-    sql = "SELECT * FROM analytics"
+    sql = "SELECT * FROM analytics ORDER BY count DESC"
     cursor.execute(sql)
     result = jsonify(cursor.fetchall())
     cursor.close()
-    return jsonify([{"count" : 1}, {"count" : 5}, {"count" : 1}, {"count" : 1}, {"count" : 3}])
-    
+    return result
+    # jsonify([{"count" : 125125}, {"count" : 5}, {"count" : 3}, {"count" : 1}, {"count" : 2412}])
+
 @app.route('/api/data', methods = ["GET"])
 def getData():
     cursor = conn.cursor(DictCursor)
