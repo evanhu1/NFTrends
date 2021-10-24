@@ -17,7 +17,6 @@ tweetDataArray = []
 
 twitterQueryCounter = 0
 
-
 loop = 1
 openseaLimit = 300  #300 is the max
 twitterLimit = 1000
@@ -90,8 +89,7 @@ for i in range(loop):
             tweetDataArray.append(twtData)
             count += 1
             twitterQueryCounter += 1
-        if count != 0:
-            counts[names[i]] = count
+        counts[names[i]] = count
     
     if twitterQueryCounter == 450:
         break
