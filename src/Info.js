@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
 import Paper from '@mui/material/Paper';
 import Item from '@mui/material/Stack';
 import Stack from '@mui/material/Stack';
@@ -6,9 +6,13 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { Container } from '@mui/material';
+
 import InfiniteScroll from "react-infinite-scroll-component";
 
-export default class Info extends Component {
+export default function Info({selectedID}) {
+    const id = selectedID['name'];
+    const rank = selectedID['rank'];
+    const count = selectedID['tweets'];
     // state = {
     //     items: Array.from({ length: 20 })
     //   };
@@ -22,7 +26,7 @@ export default class Info extends Component {
     //       });
     //     }, 1500);
     //   };
-    render() {
+
         return(
             <Container style={{ marginTop: '10%'}}>
             <Paper sx={{width: '100%', maxHeight: 7/10, justifyContent: 'center'}}>
@@ -37,13 +41,13 @@ export default class Info extends Component {
                                 <Grid item xs = {6}>
                                 <Container style={{ marginLeft: '5%', marginTop:'5%'}}>
                                 <Typography sx={{fontSize: '3rem'}} color="white">
-                                    NFT Name
+                                    {id}
                                 </Typography>
                                     <Typography  sx={{fontSize: '1rem'}}color="white">
-                                        #x Trending NFT
+                                        #{rank} Trending NFT
                                     </Typography>
                                     <Typography sx={{fontSize: '1rem'}} color = "white">
-                                        x Tweets about NFT Name today
+                                        {count} Tweets about NFT Name today
                                     </Typography>
                                 </Container>
                                 </Grid>
@@ -67,7 +71,7 @@ export default class Info extends Component {
                     <Item>
                         <Container>
                             <Typography sx={{fontSize:'2rem'}} align='left' color='white' >
-                                Tweets About NFT Name
+                                Tweets About {id}
                             </Typography>
                             {/* <InfiniteScroll
                             dataLength={this.state.items.length}
@@ -94,4 +98,3 @@ export default class Info extends Component {
           </Container> 
         );
       }
-}

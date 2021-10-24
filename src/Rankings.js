@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState, } from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,11 +10,9 @@ import TableRow from '@mui/material/TableRow';
 import { tableCellClasses } from "@mui/material/TableCell";
 import { Container } from '@mui/material';
 import Typography from '@mui/material/Typography';
+
+
 import './Rankings.css';
-import eventBus from './eventBus';
-const collectionName = [
-  ('weewee',1000),('peepee',500)
-]
 const columns = [
     { id: 'rank', label: 'Rank', minWidth: 1/3 },
     { id: 'name', label: 'Name', minWidth: 1/3 },
@@ -29,28 +27,49 @@ const columns = [
   function createData(rank, name, tweets) {
     return {rank, name, tweets};
   }
-  const rows = [];
-  function getNFTs() {
-    url = '';
-    let getUrl = url + '/api/analytics';
-    try {
-      let NFTAnalytics =  fetch(getUrl);
-      return  NFTAnalytics.json();
-    }catch (error){
-      console.log(error);
-    } 
-  }
-  function createRankings(){
-    let rankings = getNFTs();
-    const i = 1;
-    rankings.forEach(ranking=>{
-      rows.push(createData(i, ranking[id], ranking[count]));
-    });
-  }
+  // const rows = [];
+  // function getNFTs() {
+  //   const url = '';
+  //   let getUrl = url + '/api/analytics';
+  //   try {
+  //     let NFTAnalytics =  fetch(getUrl);
+  //     return  NFTAnalytics.json();
+  //   }catch (error){
+  //     console.log(error);
+  //   } 
+  // }
+  // function createRankings(){
+  //   let rankings = getNFTs();
+  //   const i = 1;
+  //   rankings.forEach(ranking=>{
+  //     rows.push(createData(i, ranking[id], ranking[count]));
+  //     i++;
+  //   });
+  // }
+  const rows = [
+    createData('1', 'IN', 1324171354, 3287263),
+    createData('2', 'CN', 1403500365, 9596961),
+    createData('3', 'IT', 60483973, 301340),
+    createData('4', 'US', 327167434, 9833520),
+    createData('5', 'CA', 37602103, 9984670),
+    createData('6', 'AU', 25475400, 7692024),
+    createData('7', 'DE', 83019200, 357578),
+    createData('8', 'IE', 4857000, 70273),
+    createData('9', 'MX', 126577691, 1972550),
+    createData('10', 'JP', 126317000, 377973),
+    createData('11', 'FR', 67022000, 640679),
+    createData('12', 'GB', 67545757, 242495),
+    createData('13', 'RU', 146793744, 17098246),
+    createData('14', 'NG', 200962417, 923768),
+    createData('15', 'BR', 210147125, 8515767),
+  ];
   
-  
-export default function Rankings () {
-  createRankings();
+export default function Rankings ({setSelectedID}) {
+  const onButtonClick=(id)=>{
+    console.log(id)
+    setSelectedID(id)
+  }
+  // createRankings();
         const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -98,11 +117,13 @@ export default function Rankings () {
                           {columns.map((column) => {
                             const value = row[column.id];
                             return (
-                              <TableCell onClick = {dispatchNFT(row[1])} key={column.id} align={column.align} style={{fontSize: 20, color: 'white'}}>
+
+                              <TableCell onClick={()=>onButtonClick(row)}key={column.id} align={column.align} style={{fontSize: 20, color: 'white'}}>
                                 {column.format && typeof value === 'number'
                                   ? column.format(value)
                                   : value}
                               </TableCell>
+
                             );
                           })}
                         </TableRow>
