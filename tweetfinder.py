@@ -46,18 +46,18 @@ for i in range(loop):
                 urls.pop()
                 descriptions.pop()
 
-        if text[i:i+11] == "\"image_url\"":
+        if text[i:i+12] == "\"image_url\":":
             url = ""
-            j = 12
+            j = 13
             while text[i + j] != "\"":
                 url += text[i + j]
                 j += 1
             collectionURLs.append(url)
 
-        if text[i:i+13] == "\"description\"":
+        if text[i:i+14] == "\"description\":":
             description = ""
-            j = 14
-            if text[i + 13] != "n":
+            j = 15
+            if text[i + 14] != "n":
                 while text[i + j] != "\"":
                     description += text[i + j]
                     j += 1
